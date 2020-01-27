@@ -10,11 +10,12 @@ require_once('./controllers/ErrorController.php');
 // Crée un nouveau routeur
 $router = new Router;
 
+$routeName = $_SERVER['REQUEST_METHOD'] . ' ';
 // Si _url n'a pas de valeur, c'est qu'on est sur la page d'accueil
 if (isset($_GET['_url'])) {
-    $routeName = $_GET['_url'];
+    $routeName .= $_GET['_url'];
 } else {
-    $routeName = 0;
+    $routeName .= '/';
 }
 // Demander au routeur de trouver l'objet Route correspondant au nom demandé
 $route = $router->match($routeName);

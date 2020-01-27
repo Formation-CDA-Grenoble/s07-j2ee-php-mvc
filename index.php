@@ -2,8 +2,10 @@
 
 // Imports
 require_once('./Router.php');
+require_once('./controllers/AbstractController.php');
 require_once('./controllers/MainController.php');
 require_once('./controllers/ContactController.php');
+require_once('./controllers/ErrorController.php');
 
 // Crée un nouveau routeur
 $router = new Router;
@@ -20,7 +22,8 @@ $route = $router->match($routeName);
 // Si aucune route n'a été trouvée
 if (is_null($route)) {
     // Renvoyer la page d'erreur 404
-    echo 'Cette page n\'existe pas (encore)';
+    $controller = new ErrorController;
+    $controller->notFound();
 // Sinon
 } else {
     $controllerName = $route->getControllerName();

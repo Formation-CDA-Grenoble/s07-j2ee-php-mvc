@@ -1,15 +1,11 @@
 <?php
 
-class ContactController {
+class ContactController extends AbstractController {
     public function sendMessage() {
         echo 'Message envoyé';
     }
 
     public function show() {
-        include('./views/head.php');
-        include('./views/navbar.php');
-        include('./views/contact_form.php');
-        include('./views/footer.php');
-        include('./views/foot.php');
+        parent::showTemplate('contact_form');
     }
 }

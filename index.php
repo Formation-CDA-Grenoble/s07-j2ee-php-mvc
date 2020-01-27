@@ -1,19 +1,23 @@
-<?php 
-// Définir une variable
-$city = 'Montpellier'
-?>
+<?php
 
-<?php include('./views/head.php') ?>
+var_dump($_GET);
+var_dump($_POST);
+echo(empty($_POST));
 
-<?php include('./views/navbar.php') ?>
+require_once('./controllers/MainController.php');
+require_once('./controllers/ContactController.php');
 
-    <div>
-        Bonjour <?php 
-            // Envoyer le contenu d'une variable dans le HTML
-            echo $city 
-        ?>!
-    </div>
-
-<?php include('./views/footer.php') ?>
-
-<?php include('./views/foot.php') ?>
+if (!isset($_GET['_url'])) {
+    $controller = new MainController;
+    $controller->show();
+} else if ($_GET['_url'] === '/contact') {
+    if (empty($_POST)) {
+        $controller = new ContactController;
+        $controller->show();
+    } else {
+        $controller = new ContactController;
+        $controller->sendMessage();
+    }
+} else {
+    echo 'Cette page n\'existe pas (encore)';
+}

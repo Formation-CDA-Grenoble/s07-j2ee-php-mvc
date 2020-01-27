@@ -1,23 +1,23 @@
 <?php
 
-var_dump($_GET);
-var_dump($_POST);
-echo(empty($_POST));
-
+require_once('./Router.php');
 require_once('./controllers/MainController.php');
 require_once('./controllers/ContactController.php');
 
-if (!isset($_GET['_url'])) {
-    $controller = new MainController;
-    $controller->show();
-} else if ($_GET['_url'] === '/contact') {
-    if (empty($_POST)) {
-        $controller = new ContactController;
-        $controller->show();
-    } else {
-        $controller = new ContactController;
-        $controller->sendMessage();
-    }
+$router = new Router;
+if (isset($_GET['_url'])) {
+    $route = $_GET['_url'];
 } else {
+    $route = null;
+}
+$routeInfo = $router->match($route);
+
+if (is_null($routeInfo)) {
     echo 'Cette page n\'existe pas (encore)';
+} else {
+    $controllerName = $routeInfo[0];
+    $methodName = $routeInfo[1];
+
+    $controller = new $controllerName;
+    $controller->$methodName();
 }

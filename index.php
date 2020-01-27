@@ -1,9 +1,19 @@
+<?php 
+// Définir une variable
+$city = 'Montpellier'
+?>
+
 <?php include('./views/head.php') ?>
 
+<?php include('./views/navbar.php') ?>
+
     <div>
-        Bonjour <?php echo $city ?>!
+        Bonjour <?php 
+            // Envoyer le contenu d'une variable dans le HTML
+            echo $city 
+        ?>!
     </div>
 
-</body>
-</html>
-<?php $city = 'Montpellier' ?>
+<?php include('./views/footer.php') ?>
+
+<?php include('./views/foot.php') ?>

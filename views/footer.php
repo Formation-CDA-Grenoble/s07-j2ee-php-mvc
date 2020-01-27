@@ -1,0 +1,1 @@
+<footer>Beautiful footer</footer>

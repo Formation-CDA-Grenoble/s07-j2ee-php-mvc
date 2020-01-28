@@ -62,13 +62,16 @@ class Router {
                 null
             ];
         }
+        preg_match('/^([A-Z]+)\s/', $requestedRoute, $matches);
+        $requestedMethod = $matches[1];
         // Parcourt toutes les routes
         foreach ($this->routes as $routeName => $route) {
             // Si le nom de la route contient une Regex
-            if (preg_match('/[A-Z]+\s\{(.+)\}/', $routeName, $matches)) {
+            if (preg_match('/([A-Z]+)\s\{(.+)\}/', $routeName, $matches)) {
                 // Si la route demandée correspond à la Regex
-                $routeToMatch = $matches[1];
-                if (preg_match('/'.$routeToMatch.'/', $requestedRoute, $matches)) {
+                $methodToMatch = $matches[1];
+                $routeToMatch = $matches[2];
+                if ($requestedMethod === $methodToMatch && preg_match('/'.$routeToMatch.'/', $requestedRoute, $matches)) {
                     // Renvoie l'objet Route correspondant
                     return [
                         $route,

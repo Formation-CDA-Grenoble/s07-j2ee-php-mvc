@@ -71,6 +71,35 @@ class Product {
         return $results[0];
     }
 
+    public function update() {
+        $dbManager = new DatabaseManager;
+        $sql = <<<SQL
+            UPDATE `product`
+            SET `serial_number` = ?,
+                `name` = ?,
+                `description` = ?,
+                `price` = ?,
+                `stock` = ?,
+                `weight` = ?,
+                `picture` = ?,
+                `brand_id` = ?
+            WHERE `id` = ?
+        SQL;
+
+        $statement = $dbManager->prepare($sql);
+        $statement->execute([
+            $this->serialNumber,
+            $this->name,
+            $this->description,
+            $this->price,
+            $this->stock,
+            $this->weight,
+            $this->picture, 
+            $this->brandId,
+            $this->id
+        ]);
+    }
+
     /**
      * Get the value of id
      */ 

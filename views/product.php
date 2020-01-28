@@ -3,3 +3,4 @@
 <h1><?= $product->getName() ?></h1>
 <div>Prix: <?= $product->getPrice() ?>€</div>
 <p><?= $product->getDescription() ?></p>
+<a href="/products/<?= $product->getId() ?>/edit">Modifier</a>

@@ -22,4 +22,36 @@ class ProductController extends AbstractController {
             'products' => $products
         ]);
     }
+
+    public function updateForm($parameters) {
+        $id = $parameters[1];
+        $product = Product::find($id);
+
+        if (is_null($product)) {
+            $errorController = new ErrorController;
+            return $errorController->notFound();
+        }
+
+        parent::showTemplate('product_edit', [
+            'product' => $product
+        ]);
+    }
+
+    public function update($parameters) {
+        $id = $parameters[1];
+        $product = Product::find($id);
+
+        if (is_null($product)) {
+            $errorController = new ErrorController;
+            return $errorController->notFound();
+        }
+
+        $product->setName($_POST['name']);
+        $product->setSerialNumber($_POST['serialNumber']);
+        $product->setPrice($_POST['price']);
+        
+        $product->update();
+
+        $this->updateForm($parameters);
+    }
 }

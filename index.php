@@ -2,10 +2,13 @@
 
 // Imports
 require_once('./Router.php');
+require_once('./DatabaseManager.php');
 require_once('./controllers/AbstractController.php');
 require_once('./controllers/MainController.php');
 require_once('./controllers/ContactController.php');
 require_once('./controllers/ErrorController.php');
+
+require_once('./models/Product.php');
 
 // Crée un nouveau routeur
 $router = new Router;

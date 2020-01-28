@@ -33,6 +33,30 @@ class Product {
         $this->brandId = $brandId;
     }
 
+    private static function convertDataToProducts($data) {
+        return array_map(function($item) {
+            return new Product(
+                $item['id'],
+                $item['serial_number'],
+                $item['name'],
+                $item['description'],
+                $item['price'],
+                $item['stock'],
+                $item['weight'],
+                $item['picture'],
+                $item['brand_id']
+            );
+        }, $data);
+    }
+
+    public static function findAll() {
+        $dbManager = new DatabaseManager;
+        $statement = $dbManager->query('SELECT * FROM `product`');
+        $results = self::convertDataToProducts($statement->fetchAll());
+        
+        return $results;
+    }
+
     public static function find($id) {
         $dbManager = new DatabaseManager;
         $statement = $dbManager->query('SELECT * FROM `product` WHERE `id`=' . $id);
@@ -42,21 +66,9 @@ class Product {
             return null;
         }
 
-        $productData = $results[0];
-
-        $product = new Product(
-            $productData['id'],
-            $productData['serial_number'],
-            $productData['name'],
-            $productData['description'],
-            $productData['price'],
-            $productData['stock'],
-            $productData['weight'],
-            $productData['picture'],
-            $productData['brand_id'],
-        );
+        $results = self::convertDataToProducts($results);
         
-        return $product;
+        return $results[0];
     }
 
     /**

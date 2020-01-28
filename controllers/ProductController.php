@@ -14,4 +14,12 @@ class ProductController extends AbstractController {
             'product' => $product
         ]);
     }
+
+    public function list() {
+        $products = Product::findAll();
+        
+        parent::showTemplate('product_list', [
+            'products' => $products
+        ]);
+    }
 }

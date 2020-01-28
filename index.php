@@ -7,6 +7,7 @@ require_once('./controllers/AbstractController.php');
 require_once('./controllers/MainController.php');
 require_once('./controllers/ContactController.php');
 require_once('./controllers/ErrorController.php');
+require_once('./controllers/ProductController.php');
 
 require_once('./models/Product.php');
 

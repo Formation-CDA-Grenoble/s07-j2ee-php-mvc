@@ -1,5 +1,10 @@
 <?php
 
+/*
+* Product
+* Classe miroir permettant de manipuler les données de la table 'product' sous forme d'objets
+* Responsable des interactions avec la table 'product' dans la base de données
+*/
 class Product {
     private $id;
     private $serialNumber;
@@ -11,6 +16,7 @@ class Product {
     private $picture;
     private $brandId;
 
+    // Constructeur permettant d'initialiser les propriétés d'un produit
     public function __construct(
         $id = null,
         $serialNumber = '',
@@ -33,8 +39,12 @@ class Product {
         $this->brandId = $brandId;
     }
 
+    // Méthode réutilisable permettant de convertir les résultats des requêtes en base de données
+    // en objets Product
     private static function convertDataToProducts($data) {
+        // Transforme chaque tableau de données sortant de la base de données...
         return array_map(function($item) {
+            // ...en un objet Product qui possède les mêmes propriétés
             return new Product(
                 $item['id'],
                 $item['serial_number'],
@@ -49,6 +59,7 @@ class Product {
         }, $data);
     }
 
+    // Renvoie la liste de tous les produits sous forme d'objets Product
     public static function findAll() {
         $dbManager = new DatabaseManager;
         $statement = $dbManager->query('SELECT * FROM `product`');
@@ -57,6 +68,7 @@ class Product {
         return $results;
     }
 
+    // Renvoie un produit identifié par son numéro sous la forme d'un objet Product
     public static function find($id) {
         $dbManager = new DatabaseManager;
         $statement = $dbManager->query('SELECT * FROM `product` WHERE `id`=' . $id);
@@ -71,8 +83,10 @@ class Product {
         return $results[0];
     }
 
+    // Met à jour les informations de produit concerné dans la base de données
     public function update() {
         $dbManager = new DatabaseManager;
+        // Crée le modèle de la requête SQL
         $sql = <<<SQL
             UPDATE `product`
             SET `serial_number` = ?,
@@ -86,7 +100,9 @@ class Product {
             WHERE `id` = ?
         SQL;
 
+        // Prépare la requête SQL à recevoir les données pour remplacer les '?'
         $statement = $dbManager->prepare($sql);
+        // Exécute la requête en remplaçant tous les '?' par les valeurs ci-dessous, dans l'ordre
         $statement->execute([
             $this->serialNumber,
             $this->name,

@@ -53,13 +53,31 @@ class Router {
     }
     
     // Méthode permettant de faire correspondre un nom de route à un objet Route
-    public function match($route) {
+    public function match($requestedRoute) {
         // Si le nom de la route existe dans la liste
-        if (isset($this->routes[$route])) {
+        if (isset($this->routes[$requestedRoute])) {
             // Renvoie l'objet Route correspondant
-            return $this->routes[$route];
+            return [
+                $this->routes[$requestedRoute],
+                null
+            ];
+        }
+        // Parcourt toutes les routes
+        foreach ($this->routes as $routeName => $route) {
+            // Si le nom de la route contient une Regex
+            if (preg_match('/[A-Z]+\s\{(.+)\}/', $routeName, $matches)) {
+                // Si la route demandée correspond à la Regex
+                $routeToMatch = $matches[1];
+                if (preg_match('/'.$routeToMatch.'/', $requestedRoute, $matches)) {
+                    // Renvoie l'objet Route correspondant
+                    return [
+                        $route,
+                        $matches
+                    ];
+                }
+            }
         }
         // Sinon, renvoie null
-        return null;
+        return [null, null];
     }
 }

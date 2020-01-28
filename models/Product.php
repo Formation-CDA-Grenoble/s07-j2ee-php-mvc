@@ -37,6 +37,11 @@ class Product {
         $dbManager = new DatabaseManager;
         $statement = $dbManager->query('SELECT * FROM `product` WHERE `id`=' . $id);
         $results = $statement->fetchAll();
+
+        if (empty($results)) {
+            return null;
+        }
+
         $productData = $results[0];
 
         $product = new Product(

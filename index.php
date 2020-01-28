@@ -22,7 +22,7 @@ if (isset($_GET['_url'])) {
     $routeName .= '/';
 }
 // Demander au routeur de trouver l'objet Route correspondant au nom demandé
-$route = $router->match($routeName);
+list($route, $parameters) = $router->match($routeName);
 
 // Si aucune route n'a été trouvée
 if (is_null($route)) {
@@ -36,6 +36,10 @@ if (is_null($route)) {
 
     // Crée un nouveau contrôleur du nom indiqué par la Route
     $controller = new $controllerName;
-    // Invoque la méthode de ce contrôleur du nom indiqué par la Route
-    $controller->$methodName();
+    if (is_null($parameters)) {
+        // Invoque la méthode de ce contrôleur du nom indiqué par la Route
+        $controller->$methodName();
+    } else {
+        $controller->$methodName($parameters);
+    }
 }
